@@ -1,4 +1,5 @@
 const usuarioService = require('../services/usuarioService');
+const bcrypt = require('bcrypt');
 
 
 const buscarUsuario = async (req, res) => {
@@ -26,7 +27,8 @@ const buscarUsuarios = async (req, res) => {
 const criarUsuario = async (req, res) => {
     const {nome, email, senha} = req.body;
     try {
-        const usuarioNovo = await usuarioService.criarUsuario({nome, email, senha});
+        const hash = await bcrypt.hash(senha, 10);
+        const usuarioNovo = await usuarioService.criarUsuario({nome, email, senha: hash});
         res.status(201).json(usuarioNovo);
     } catch (error) {
         res.status(500).json({error: 'Erro ao criar usuario...'})

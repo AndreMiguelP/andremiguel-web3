@@ -2,6 +2,7 @@ const Usuario = require('../models/Usuario');
 
 const obterTodosUsuario = async () => {
     return await Usuario.findAll();
+    attributes: ['id', 'nome', 'email']
 };
 
 const obterUsuarioPorId = async (id) => {
