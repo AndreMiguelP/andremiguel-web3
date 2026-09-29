@@ -18,5 +18,6 @@ app.listen(PORT, () => {
 // npm i express
 // npm i cors 
 // npm i nodemon
+// npm install jsonwebtoken
 // npm run start 
 // p acessar no google http://localhost:3000/usuarios
