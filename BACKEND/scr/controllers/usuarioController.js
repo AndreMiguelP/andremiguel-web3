@@ -1,7 +1,6 @@
 const usuarioService = require('../services/usuarioService');
 const bcrypt = require('bcrypt');
 
-
 const buscarUsuario = async (req, res) => {
     try {
         const Usuario = await usuarioService.obterTodosUsuario();
@@ -25,13 +24,19 @@ const buscarUsuarios = async (req, res) => {
 };
 
 const criarUsuario = async (req, res) => {
-    const {nome, email, senha} = req.body;
     try {
+        const {nome, email, senha} = req.body;
+        
+        if (!nome || !email || !senha) {
+            return res.status(400).json({error: 'Erro, todos os campos sao obrigatórios...'});
+        }
         const hash = await bcrypt.hash(senha, 10);
+
         const usuarioNovo = await usuarioService.criarUsuario({nome, email, senha: hash});
+        
         res.status(201).json(usuarioNovo);
     } catch (error) {
-        res.status(500).json({error: 'Erro ao criar usuario...'})
+        res.status(500).json({error: 'Erro ao criar um novo usuario...'})
     }
 };
 
@@ -62,7 +67,6 @@ const deletarUsuario = async (req, res) => {
         res.status(500).json({error: 'Erro interno ao deletar usuario...'});
     }   
 };
-
 
 module.exports = {
     buscarUsuario,
